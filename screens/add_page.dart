@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:todo_app/utils/api_endpoint.dart';
 
 class AddTodoPage extends StatefulWidget {
   const AddTodoPage({super.key});
@@ -53,7 +54,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
       "description": description,
       "is_completed": false
     };
-    final url = "https://api.nstack.in/v1/todos";
+    final url = ApiEndPoints.apiUrl;
     final uri = Uri.parse(url);
     final response = await http.post(
       uri,
