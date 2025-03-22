@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/services/api_services.dart';
 import 'package:todo_app/model/todo_model.dart';
 import 'add_page.dart';
+import 'package:http/http.dart' as http;
 
 class TodoListPage extends StatefulWidget {
   const TodoListPage({super.key});
@@ -56,6 +57,23 @@ class _TodoListPageState extends State<TodoListPage> {
                       leading: CircleAvatar(child: Text('${index + 1}')),
                       title: Text(item.title),
                       subtitle: Text(item.description),
+                      trailing: PopupMenuButton(onSelected: (value) async {
+                        if (value == 'edit') {
+                        } else if (value == 'delete') {
+                          await ApiServices.deleteData(item.id!);
+                          setState(() {
+                            snapshot.data!.removeWhere((todo) => todo.id == item.id);
+                          });
+                        }
+                      }, itemBuilder: (context) {
+                        return [
+                          PopupMenuItem(value: 'edit', child: Text('Edit')),
+                          PopupMenuItem(
+                            value: 'delete',
+                            child: Text('Delete'),
+                          )
+                        ];
+                      }),
                     );
                   },
                 ),
